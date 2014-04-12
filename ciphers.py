@@ -1,54 +1,60 @@
 #**
-# Caesar cipher.
+# Caesar's cipher.
 #**
 
 import string
 import os
 
 message = "This is a common message.".upper()
-cipherText = ''
-translatedText = ''
-key = 13
+rot_13_key = 13
 alphabet = string.ascii_uppercase
 
-# Encrypt the desired text, using Caeser's cipher.
+#**
+# Encrypt the text using Caesar's cipher.
+#**
 def encrypt(plainText, key):
     translatedText = ''
     cipherIndex = 0;
 
     for index, char in enumerate(plainText):
-		if (alphabet.find(char.upper()) != -1):
-			cipherIndex = alphabet.index(char.upper()) + key
+		if (alphabet.find(char) != -1): # if char is a letter
+			cipherIndex = alphabet.index(char) + key
 		
 			if (cipherIndex >= len(alphabet)):
 				cipherIndex = cipherIndex - len(alphabet)
 
 			# Translate
 			translatedText = translatedText + alphabet[cipherIndex]
-		else: # A different character (space, dash, etc.)
+			
+		else: # if char is NOT a letter (space, dash, etc.)
 			translatedText = translatedText + char
 
     return translatedText
 
-# Decrypt the desired text, using Caser's cipher.
+
+#**
+# Decrypt the text using Caesar's cipher.
+#**
 def decrypt(cipherText, key):
     translatedText = ''
     cipherIndex = 0;
 
     for index, char in enumerate(cipherText):
-		if (alphabet.find(char.upper()) != -1):
-			cipherIndex = alphabet.index(char.upper()) - key
+		if (alphabet.find(char) != -1): # if char is a letter
+			cipherIndex = alphabet.index(char) - key
 
 			if (cipherIndex < 0):
 				cipherIndex = len(alphabet) + cipherIndex
 
 			# Translate
 			translatedText = translatedText + alphabet[cipherIndex]
-		else: # A different character (space, dash, etc.)
+			
+		else: # if char is NOT a letter (space, dash, etc.)
 			translatedText = translatedText + char
 
 
     return translatedText
+
 
 #**
 # ROT13 encryption (where the key is 13).
@@ -56,13 +62,14 @@ def decrypt(cipherText, key):
 # a decrypt.
 #**
 def rot_13_encryption(text):
-	return encrypt(text, key)
+	return encrypt(text, rot_13_key)
+
 
 #**
 # ROT13 decryption.
 #**
 def rot_13_decryption(text):
-	return decrypt(text, key)
+	return decrypt(text, rot_13_key)
 
 
 #**
@@ -87,7 +94,25 @@ print 'Trying ROT13 encryption...\n'
 print message, '\t Original message'
 print rot_13_encryption(message), '\t Encrypted'
 print rot_13_encryption(rot_13_encryption(message)), '\t Encrypted again'
-
-
+print '\n'
+print 'Trying Caesar\'s cipher...'
+key = 5
+print 'key: ', key
+print 'Encrypted once...'
+print message, '\t Original message'
+cipherText = encrypt(message, key) # encrypt
+print cipherText, '\t Encrypted'
+print decrypt(cipherText, key), '\t Decrypted'
+print ''
+print 'Encrypted twice...'
+print message, '\t Original message'
+cipherText = encrypt(message, key) # encrypt
+print cipherText, '\t Encrypted' # display
+cipherText = encrypt(cipherText, key) # encrypt again
+print cipherText, '\t Encrypted again' # display
+cipherText = decrypt(cipherText, key) # decrypt once
+print cipherText, '\t Decrypted' # display
+cipherText = decrypt(cipherText, key) # decrypt again
+print cipherText, '\t Decrypted again' # display
 
 
