@@ -56,17 +56,10 @@ def process(initial_text, key, F):
 	# Iterate though the initial_text
 	for i, char in enumerate(initial_text):
 
-		# Key must be the same length as the message.
-		# Repeat the letters until lengths match
 		if (len(key_gen) == i):
-			next_index = i
-			
-			# Index of next Key character to append
-			while (next_index >= len(key)):
-				next_index = next_index - len(key)
-				
-			
-			key_gen += key[next_index]
+			# Key must be the same length as the message.
+			# Repeat the letters until lengths match.
+			key_gen += key_gen[get_key_index(key, i)] # Pass ORIGINAL key
 
 		if (alphabet.find(char) != -1): # if char is a letter
 			M = alphabet.index(initial_text[i])
@@ -74,10 +67,25 @@ def process(initial_text, key, F):
 			C = F(K, M) # returns the index
 
 			result_text += alphabet[C]
+
 		else: # if char is NOT a letter (space, dash, etc.)
 			result_text += char
 
 	return result_text
+
+#**
+# Generate the next key letter from the original.
+# 
+# return - Index of the next key character
+#**
+def get_key_index(key, i):
+	next_index = i
+
+	# Index of next Key character to append
+	while (next_index >= len(key)):
+		next_index = next_index - len(key)
+
+	return next_index
 
 #**
 # Clear the terminal (linux)
@@ -85,13 +93,13 @@ def process(initial_text, key, F):
 #clear = lambda: os.system('clear') # Linux
 clear = lambda: os.system('cls') # Windows
 
-
 #=====
 # Main
 #=====
 clear()
 print 'Trying Vigenere cipher...\n'
 print message, '\t Original message'
-print process(message, key, E), '\t Encrypted'
-print process(message, key, D), '\t Decrypted'
+ciphertext = process(message, key, E)
+print ciphertext, '\t Encrypted'
+print process(ciphertext, key, D), '\t Decrypted'
 print '\n'
