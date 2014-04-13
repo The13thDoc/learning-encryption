@@ -7,74 +7,91 @@
 import string
 import os
 
-plaintext = "This is a common message.".upper()
-key = "somekey"
+message = "This is a common message.".upper()
+key = "somekey".upper()
 alphabet = string.ascii_uppercase
 
 #**
-# Encrypt using Vigenere's cipher.
+# Encryption formula.
 #
 # Ci = Ek(Mi) = (Mi + Ki)
 #
-# return - Cipher character index
+# return - Ciphertext character index
 #**
 def E(K, M):
-	return M + K
+	i = M + K # Alpha index of resulting character
 
+	if (i >= len(alphabet)):
+		i = i - len(alphabet)
+
+	return i
 
 #**
-# Decrypt using Vigenere's cipher.
+# Decryption formula.
 #
 # Mi = Dk(Ci) = (Ci - Ki)
 #
-#return - Plaintext character index
+# return - Plaintext character index
 #**
 def D(K, C):
-	return C - K
+	i = C - K # Alpha index of resulting character
 
+	if (i < 0):
+		i = len(alphabet) + i
+
+	return i
 
 #**
-# Encrypt message.
+# Cipher flow. Encryption and decryption.
 #
-# return - ciphertext
+# param:
+# 	initial_text - The message being deciphered.
+#	key - Key used to decipher.
+#	F - Function to encrypt or decrypt
 #**
-def encrypt(plaintext, key):
-	ciphertext = ''
-	
-	# Iterate through the plaintext
-	for i, char in enumerate(plaintext):
+def process(initial_text, key, F):
+	result_text = ''
+	key_gen = key
+
+	# Iterate though the initial_text
+	for i, char in enumerate(initial_text):
+
+		# Key must be the same length as the message.
+		# Repeat the letters until lengths match
+		if (len(key_gen) == i):
+			next_index = i
+			
+			# Index of next Key character to append
+			while (next_index >= len(key)):
+				next_index = next_index - len(key)
+				
+			
+			key_gen += key[next_index]
+
 		if (alphabet.find(char) != -1): # if char is a letter
-			M = alphabet.index(plaintext[i])
-			K = alphabet.index(key[i])
-			C = E(K,M) # returns the index
-	
-			ciphertext += alpha[C]
-		else: # if char is NOT a letter (space, dash, etc.)
-			ciphertext += char
-		
-		return ciphertext
+			M = alphabet.index(initial_text[i])
+			K = alphabet.index(key_gen[i])
+			C = F(K, M) # returns the index
 
+			result_text += alphabet[C]
+		else: # if char is NOT a letter (space, dash, etc.)
+			result_text += char
+
+	return result_text
 
 #**
-# Decrypt message.
-#
-# return - plaintext
+# Clear the terminal (linux)
 #**
-def decrypt(ciphertext, key):
-	plaintext = ''
-	
-	# Iterate through the ciphertext
-	for i, char in enumerate(ciphertext):
-		if (alphabet.find(char) != -1): # if char is a letter
-			M = alphabet.index(ciphertext[i])
-			K = alphabet.index(key[i])
-			C = D(K,M) # returns the index
-	
-			plaintext += alpha[C]
-		else: # if char is NOT a letter (space, dash, etc.)
-			plaintext += char
-		
-		return plaintext
+#clear = lambda: os.system('clear') # Linux
+clear = lambda: os.system('cls') # Windows
 
 
-
+#=====
+# Main
+#=====
+clear()
+print 'Trying Vigenere cipher...\n'
+print message, '\t Original message'
+print process(message, key, E), '\t Encrypted'
+print process(message, key, D), '\t Decrypted'
+print '\n'
