@@ -1,0 +1,14 @@
+/*
+ * Style sheet for index.html
+ */
+
+
+/*
+dark blue: #001b33 // Color of text pad Cobalt theme
+dark lavender: #300a24 // Color of linux Terminal background
+*/
+body {
+	background: #300a24;
+	font-family: 'Ubuntu Mono';
+	color: #ffffff;
+}
