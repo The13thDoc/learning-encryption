@@ -48,14 +48,17 @@ function process (initial_text, key, F) {
 	var key_gen = key;
 
 	for (var i in initial_text) {
-
-		if (key_gen.length === i) {
-
-		}
-
-		if (alphabet.indexOf(i, [0]) !== -1) {
-			var M = alphabet.indexOf(initial_text, [0]);
-			var K = alphabet.indexOf(key_gen, [0]);
+		var char = initial_text.charAt(parseInt(i));
+		
+		if (alphabet.indexOf(char) !== -1) {
+			
+			if (key_gen.length === parseInt(i)) {
+				console.debug('in here');
+				var index = get_key_index(key, i);
+				key_gen += key_gen.substring(index, index + 1);
+			}
+			var M = alphabet.indexOf(char);
+			var K = alphabet.indexOf(key_gen.substring(parseInt(i), parseInt(i) + 1));
 			var C = F(K, M);
 
 			result_text += alphabet.charAt(C);
@@ -63,6 +66,8 @@ function process (initial_text, key, F) {
 			result_text += initial_text.charAt(i);
 		}
 	}
+	console.debug(key_gen);
+	console.debug(result_text);
 }
 
 /**
