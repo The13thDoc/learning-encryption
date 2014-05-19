@@ -66,6 +66,7 @@ function process (initial_text, key, F) {
 			result_text += initial_text.charAt(i);
 		}
 	}
+	console.debug(initial_text);
 	console.debug(key_gen);
 	console.debug(result_text);
 	
