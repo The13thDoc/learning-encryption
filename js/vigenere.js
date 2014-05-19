@@ -49,9 +49,12 @@ function process (initial_text, key, F) {
 
 	for (var i in initial_text) {
 		var char = initial_text.charAt(parseInt(i));
+		var index = i
+		console.debug(i + ": " + typeof i);
+		console.debug(i + ": " + typeof char);
 		
 		if (alphabet.indexOf(char) !== -1) {
-			
+			console.debug("Processing: " + char + "(" + index  + ")")
 			if (key_gen.length === parseInt(i)) {
 				console.debug('in here');
 				var index = get_key_index(key, i);
