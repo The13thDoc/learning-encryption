@@ -74,8 +74,8 @@ function process (initial_text, key, F) {
 	//return result_text;
 }
 
-function displayType(var){
-	console.debug("var: " + var + "\ntype: " + typeof var);
+function displayType(thing){
+	console.debug("var: " + thing + "\ntype: " + typeof thing);
 }
 
 /**
