@@ -50,11 +50,9 @@ function process (initial_text, key, F) {
 	for (var i in initial_text) {
 		var char = initial_text.charAt(parseInt(i));
 		var index = i
-		console.debug(i + ": " + typeof parseInt(i));
-		console.debug(char + ": " + typeof char);
-		
+	
 		if (alphabet.indexOf(char) !== -1) {
-			console.debug("Processing: " + char + "(" + index  + ")")
+			displayType(key_gen.length);
 			if (key_gen.length === parseInt(i)) {
 				console.debug('in here');
 				var index = get_key_index(key, i);
@@ -74,6 +72,10 @@ function process (initial_text, key, F) {
 	console.debug(result_text);
 	
 	//return result_text;
+}
+
+function displayType(var){
+	console.debug("var: " + var + "\ntype: " + typeof var);
 }
 
 /**
