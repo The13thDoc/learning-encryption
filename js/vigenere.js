@@ -68,6 +68,8 @@ function process (initial_text, key, F) {
 	}
 	console.debug(key_gen);
 	console.debug(result_text);
+	
+	//return result_text;
 }
 
 /**
