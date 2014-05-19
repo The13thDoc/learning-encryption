@@ -52,10 +52,10 @@ function process (initial_text, key, F) {
 		var index = i
 	
 		if (key_gen.length === parseInt(i)) {
-			console.debug('in here');
 			var key_index = get_key_index(key, i);
 			key_gen += key_gen.substring(key_index, key_index + 1);
 		}
+		
 		if (alphabet.indexOf(char) !== -1) {
 			var M = alphabet.indexOf(char);
 			var K = alphabet.indexOf(key_gen.substring(parseInt(i), parseInt(i) + 1));
@@ -66,13 +66,13 @@ function process (initial_text, key, F) {
 			result_text += initial_text.charAt(i);
 		}
 	}
-	console.debug(initial_text);
-	console.debug(key_gen);
-	console.debug(result_text);
 	
-	//return result_text;
+	return result_text;
 }
 
+/**
+ * Display the given variable and its type.
+ */
 function displayType(thing){
 	console.debug("var: " + thing + "\ntype: " + typeof thing);
 }
