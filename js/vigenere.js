@@ -51,14 +51,12 @@ function process (initial_text, key, F) {
 		var char = initial_text.charAt(parseInt(i));
 		var index = i
 	
+		if (key_gen.length === parseInt(i)) {
+			console.debug('in here');
+			var key_index = get_key_index(key, i);
+			key_gen += key_gen.substring(key_index, key_index + 1);
+		}
 		if (alphabet.indexOf(char) !== -1) {
-			displayType(parseInt(i));
-			displayType(key_gen.length);
-			if (key_gen.length === parseInt(i)) {
-				console.debug('in here');
-				var index = get_key_index(key, i);
-				key_gen += key_gen.substring(index, index + 1);
-			}
 			var M = alphabet.indexOf(char);
 			var K = alphabet.indexOf(key_gen.substring(parseInt(i), parseInt(i) + 1));
 			var C = F(K, M);
