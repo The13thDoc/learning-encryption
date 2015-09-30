@@ -3,4 +3,5 @@
  */
 console.debug('Inside JS');
 
-var cipherObject = new Vigenere();
+var vigenereObject = new Vigenere();
+vigenereObject.process('hi', 'key', 'F');
