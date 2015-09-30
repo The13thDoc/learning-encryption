@@ -14,22 +14,22 @@ var Vigenere = function() {
     this.alphabet = {};
     var that = this;
 
-    // Encrypt.
+    // Encryption formula.
     this.E = function(K, M) {
         var i = M + K; // Alpha index of resulting character
 
-        if (i >= alphabet.length) {
-            i = i - alphabet.length;
+        if (i >= this.alphabet.length) {
+            i = i - this.alphabet.length;
         }
         return i;
     };
 
-    // Decrypt.
+    // Decryption formula.
     this.D = function(K, C) {
         var i = C - K; // Alpha index of resulting character
 
         if (i < 0) {
-            i = alphabet.length + i;
+            i = this.alphabet.length + i;
         }
         return i;
     };
@@ -52,36 +52,46 @@ var Vigenere = function() {
         console.debug(this.alphabet);
     };
 
+    // Process text.
+    this.process = function(initial_text, key, F) {
+        console.debug('Inside Vigenere.process()');
+        var result_text = '';
+        var key_gen = key;
+
+        for (var i in initial_text) {
+            var char = initial_text.charAt(parseInt(i));
+            var index = i
+
+            if (key_gen.length === parseInt(i)) {
+                var key_index = get_key_index(key, i);
+                key_gen += key_gen.substring(key_index, key_index + 1);
+            }
+
+            if (this.alphabet[char] !== -1) {
+                var M = this.alphabet[char];
+                var K = this.alphabet[key_gen.substring(parseInt(i), parseInt(i) + 1)];
+                var C = F(K, M);
+
+                result_text += that.alphabet[C];
+            } else {
+                result_text += initial_text.charAt(i);
+            }
+        }
+
+        return result_text;
+    };
+
     this.populateUppercaseAlphabet();
 };
 
-// Process text.
-Vigenere.prototype.process = function(initial_text, key, F) {
-    console.debug('Inside Vigenere.process()');
-    var result_text = '';
-    var key_gen = key;
+// Encrypt.
+Vigenere.prototype.encrypt = function(initial_text, key) {
+    return this.process(initial_text, key, this.E);
+};
 
-    for (var i in initial_text) {
-        var char = initial_text.charAt(parseInt(i));
-        var index = i
-
-        if (key_gen.length === parseInt(i)) {
-            var key_index = get_key_index(key, i);
-            key_gen += key_gen.substring(key_index, key_index + 1);
-        }
-
-        if (this.alphabet[char] !== -1) {
-            var M = this.alphabet[char];
-            var K = this.alphabet[key_gen.substring(parseInt(i), parseInt(i) + 1)];
-            var C = F(K, M);
-
-            result_text += that.alphabet[C];
-        } else {
-            result_text += initial_text.charAt(i);
-        }
-    }
-
-    return result_text;
+// Decrypt.
+Vigenere.prototype.decrypt = function(initial_text, key) {
+    return this.process(initial_text, key, this.D);
 };
 
 // Display the given variable and its type.
