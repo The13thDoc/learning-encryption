@@ -1,92 +1,89 @@
-/**
- * Vigenere's cipher
- */
+/*
+Ciphers
+*/
 
-var alphabet = 'ABCDEFGHIJKLMNAOPQRSTUVWXYZ';
+// Define Cipher class
+// function Cipher() {}
 
-/**
- * Encryption formula.
- *
- * Ci = Ek(Mi) = (Mi + Ki)
- *
- * return - Ciphertext character index
- */
-function E(K, M) {
-	var i = M + K; // Alpha index of resulting character
 
-	if (i >= alphabet.length) {
-		i = i - alphabet.length;
-	}
-	return i;
-}
+// Define Vigenere class
+var Vigenere = function() {
+    console.debug('Vigenere object created.');
+    // call parent constructor
+    //Cipher.call(this);
+    // this.alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'; // char code 65-90
+    this.alphabet = {};
 
-/**
- * Decryption formula.
- *
- * Mi = Dk(Ci) = (Ci - Ki)
- *
- * return - Plaintext character index
- */
-function D(K, C){
-	var i = C - K; // Alpha index of resulting character
+    this.populateUppercaseAlphabet();
+};
 
-	if (i < 0) {
-		i = alphabet.length + i;
-	}
-	return i;
-}
+// Encryption
+Vigenere.prototype.E = function(K, M) {
+    var i = M + K; // Alpha index of resulting character
 
-/**
- * Cipher flow.
- *
- * initial_text - The message being deciphered.
- * key - Key used to decipher.
- * F - Function to encrypt or decrypt
- */
-function process (initial_text, key, F) {
-	var result_text = '';
-	var key_gen = key;
+    if (i >= alphabet.length) {
+        i = i - alphabet.length;
+    }
+    return i;
+};
 
-	for (var i in initial_text) {
-		var char = initial_text.charAt(parseInt(i));
-		var index = i
-	
-		if (key_gen.length === parseInt(i)) {
-			var key_index = get_key_index(key, i);
-			key_gen += key_gen.substring(key_index, key_index + 1);
-		}
-		
-		if (alphabet.indexOf(char) !== -1) {
-			var M = alphabet.indexOf(char);
-			var K = alphabet.indexOf(key_gen.substring(parseInt(i), parseInt(i) + 1));
-			var C = F(K, M);
+// Decryption
+Vigenere.prototype.D = function(K, C) {
+    var i = C - K; // Alpha index of resulting character
 
-			result_text += alphabet.charAt(C);
-		}else{
-			result_text += initial_text.charAt(i);
-		}
-	}
-	
-	return result_text;
-}
+    if (i < 0) {
+        i = alphabet.length + i;
+    }
+    return i;
+};
+
+Vigenere.prototype.process = function(initial_text, key, F) {
+    var result_text = '';
+    var key_gen = key;
+
+    for (var i in initial_text) {
+        var char = initial_text.charAt(parseInt(i));
+        var index = i
+
+        if (key_gen.length === parseInt(i)) {
+            var key_index = get_key_index(key, i);
+            key_gen += key_gen.substring(key_index, key_index + 1);
+        }
+
+        if (alphabet.indexOf(char) !== -1) {
+            var M = alphabet.indexOf(char);
+            var K = alphabet.indexOf(key_gen.substring(parseInt(i), parseInt(i) + 1));
+            var C = F(K, M);
+
+            result_text += alphabet.charAt(C);
+        } else {
+            result_text += initial_text.charAt(i);
+        }
+    }
+
+    return result_text;
+};
+
+// Generate the next key letter from the original.
+Vigenere.prototype.get_key_index = function(key, i) {
+    var next_index = i;
+
+    while (next_index >= key.length) {
+        next_index = next_index - key.length;
+    }
+    return next_index;
+};
+
+Vigenere.prototype.populateUppercaseAlphabet = function() {
+    for (var charCode = 65; charCode <= 90; charCode++) {
+        this.alphabet[charCode] = String.fromCharCode(charCode);
+    }
+    console.debug(this.alphabet);
+};
 
 /**
  * Display the given variable and its type.
  */
-function displayType(thing){
-	console.debug("var: " + thing + "\ntype: " + typeof thing);
-}
-
-/**
- * Generate the next key letter from the original.
- *
- *  return - Index of the next key character.
- */
-function get_key_index (key, i) {
-	var next_index = i;
-
-	while (next_index >= key.length) {
-		next_index = next_index - key.length;
-	}
-	return next_index;
-}
+function displayType(thing) {
+    console.debug("var: " + thing + "\ntype: " + typeof thing);
+};
