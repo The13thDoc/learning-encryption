@@ -15,7 +15,7 @@ var Vigenere = function() {
     var that = this;
 
     // Encryption formula.
-    this.E = function(K, M) {
+    this.E = function E(K, M) {
         var i = M + K; // Alpha index of resulting character
 
         if (i >= this.length) {
@@ -25,7 +25,7 @@ var Vigenere = function() {
     };
 
     // Decryption formula.
-    this.D = function(K, C) {
+    this.D = function D(K, C) {
         var i = C - K; // Alpha index of resulting character
 
         if (i < 0) {
@@ -55,30 +55,49 @@ var Vigenere = function() {
 
     // Process text.
     this.process = function(initial_text, key, F) {
-        console.debug('Inside Vigenere.process()');
+        console.debug('Vigenere.process(): ','START FUNCTION');
+        console.debug('Vigenere.process(): ', 'Function being passed: ', F.name);
+
         var result_text = '';
         var key_gen = key;
 
         for (var i in initial_text) {
-            var char = initial_text.charAt(parseInt(i));
+            console.debug('Vigenere.process(): ',
+            'NEW LOOP===================' +
+            '===================', i
+            );
+            console.debug('Vigenere.process(): ', 'Inside loop \'initial_text\'');
+            var char = initial_text.charAt(parseInt(i)).toLocaleUpperCase();
             var index = i;
 
+            console.debug('Vigenere.process(): ', 'char', char);
+
+            console.debug('Vigenere.process(): ', key_gen.length);
             if (key_gen.length === parseInt(i)) {
+                console.debug('Vigenere.process(): ', '!!key-gen length = index!!');
                 var key_index = get_key_index(key, i);
                 key_gen += key_gen.substring(key_index, key_index + 1);
             }
 
-            console.debug('Function passed: ', F);
+            console.debug('Vigenere.process(): ', this.alphabet[]);
             if (this.alphabet[char] !== -1) {
+                console.debug('Vigenere.process(): ', '!!alphabet char doesn\'t exist!!');
                 var M = this.alphabet[char];
                 var K = this.alphabet[key_gen.substring(parseInt(i), parseInt(i) + 1)];
+                console.debug('Vigenere.process(): ', 'M', M);
+                console.debug('Vigenere.process(): ', 'K', K);
                 var C = F(K, M);
+                console.debug('Vigenere.process(): ', 'C', C);
 
                 result_text += that.alphabet[C];
             } else {
                 result_text += initial_text.charAt(i);
             }
         }
+        console.debug('Vigenere.process(): ',
+        'OUT OF LOOP-------------------' +
+        '-------------------'
+        );
 
         return result_text;
     };
