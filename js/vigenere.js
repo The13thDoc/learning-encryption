@@ -5,21 +5,21 @@
 // Define Cipher class
 // function Cipher() {}
 
-
 // Constructor
 var Vigenere = function() {
     console.debug('Vigenere object created.');
     // call parent constructor
     //Cipher.call(this);
     this.alphabet = {};
+    this.length;
     var that = this;
 
     // Encryption formula.
     this.E = function(K, M) {
         var i = M + K; // Alpha index of resulting character
 
-        if (i >= this.alphabet.length) {
-            i = i - this.alphabet.length;
+        if (i >= this.length) {
+            i = i - this.length;
         }
         return i;
     };
@@ -29,7 +29,7 @@ var Vigenere = function() {
         var i = C - K; // Alpha index of resulting character
 
         if (i < 0) {
-            i = this.alphabet.length + i;
+            i = length + i;
         }
         return i;
     };
@@ -49,7 +49,8 @@ var Vigenere = function() {
         for (var charCode = 65; charCode <= 90; charCode++) {
             this.alphabet[charCode] = String.fromCharCode(charCode);
         }
-        console.debug(this.alphabet);
+        this.length = Object.keys(this.alphabet).length;
+        console.debug(this.alphabet, 'Length:', this.length);
     };
 
     // Process text.
@@ -60,13 +61,14 @@ var Vigenere = function() {
 
         for (var i in initial_text) {
             var char = initial_text.charAt(parseInt(i));
-            var index = i
+            var index = i;
 
             if (key_gen.length === parseInt(i)) {
                 var key_index = get_key_index(key, i);
                 key_gen += key_gen.substring(key_index, key_index + 1);
             }
 
+            console.debug('Function passed: ', F);
             if (this.alphabet[char] !== -1) {
                 var M = this.alphabet[char];
                 var K = this.alphabet[key_gen.substring(parseInt(i), parseInt(i) + 1)];
@@ -86,11 +88,13 @@ var Vigenere = function() {
 
 // Encrypt.
 Vigenere.prototype.encrypt = function(initial_text, key) {
+    // Pass E() as a Function object.
     return this.process(initial_text, key, this.E);
 };
 
 // Decrypt.
 Vigenere.prototype.decrypt = function(initial_text, key) {
+    // Pass D() as a Function object.
     return this.process(initial_text, key, this.D);
 };
 
