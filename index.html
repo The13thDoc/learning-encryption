@@ -3,21 +3,27 @@ title: Encryption
 ---
 <!doctype html>
 <html>
-<head>
-  <title>
-    {{ page.title }}
-  </title>
 
-	<link href='https://fonts.googleapis.com/css?family=Ubuntu+Mono' rel='stylesheet' type='text/css'>
-	<link rel='stylesheet' href='{{ site.baseurl }}/css/style.css' type='text/css'>
+<head>
+    <title>
+        {{ page.title }}
+    </title>
+
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu+Mono' rel='stylesheet' type='text/css'>
+    <link rel='stylesheet' href='{{ site.baseurl }}/css/style.css' type='text/css'>
 
     <script type='text/javascript' src='{{ site.baseurl }}/js/vigenere.js'></script>
     <script type='text/javascript' src='{{ site.baseurl }}/js/main.js'></script>
 </head>
 
 <body>
-  This page is for testing and playing around with encryption techniques.
+    <div id='intro'>
+        This page is for testing and playing around with encryption techniques.
+    </div>
 
-
+    <div id='in-progress' hidden >
+        Work in progress.
+    </div>
 </body>
+
 </html>
