@@ -11,8 +11,7 @@ body {
 	background: #300a24;
 	font-family: 'Ubuntu Mono';
 	color: #ffffff;
-}
-
-.text {
-	/*background-color: #a6a6a6;*/
+	font-size: larger;
+	margin: auto;
+    max-width: 800px;
 }

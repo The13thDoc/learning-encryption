@@ -2,14 +2,10 @@
  * Vigener class.
 */
 
-// Define Cipher class
-// function Cipher() {}
-
 // Constructor
 var Vigenere = function() {
     console.debug('Vigenere object created.');
-    // call parent constructor
-    //Cipher.call(this);
+
     this.alphabet = {};
     this.length;
     var that = this;
