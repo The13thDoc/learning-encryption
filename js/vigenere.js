@@ -57,7 +57,8 @@ var Vigenere = function() {
     this.process = function(initial_text, key, F) {
         console.debug('Vigenere.process(): ','START FUNCTION');
         console.debug('Vigenere.process(): ', 'Function being passed: ', F.name);
-
+        console.debug('Vigenere.process(): ', 'text:', initial_text);
+        console.debug('Vigenere.process(): ', 'key:', key, key.length);
         var result_text = '';
         var key_gen = key;
 
@@ -67,31 +68,30 @@ var Vigenere = function() {
             '===================', i
             );
             console.debug('Vigenere.process(): ', 'Inside loop \'initial_text\'');
-            var char = initial_text.charAt(parseInt(i)).toLocaleUpperCase();
-            var index = i;
+            var char = initial_text.charAt(i);
+            var index = parseInt(i);
 
             console.debug('Vigenere.process(): ', 'char', char);
+            console.debug('Vigenere.process(): ', 'charCode', char.charCodeAt());
 
-            console.debug('Vigenere.process(): ', key_gen.length);
-            if (key_gen.length === parseInt(i)) {
+            if (key_gen.length === index) {
                 console.debug('Vigenere.process(): ', '!!key-gen length = index!!');
-                var key_index = get_key_index(key, i);
+                var key_index = this.get_key_index(key, index);
                 key_gen += key_gen.substring(key_index, key_index + 1);
             }
 
-            console.debug('Vigenere.process(): ', this.alphabet[]);
-            if (this.alphabet[char] !== -1) {
-                console.debug('Vigenere.process(): ', '!!alphabet char doesn\'t exist!!');
-                var M = this.alphabet[char];
-                var K = this.alphabet[key_gen.substring(parseInt(i), parseInt(i) + 1)];
-                console.debug('Vigenere.process(): ', 'M', M);
-                console.debug('Vigenere.process(): ', 'K', K);
+            if (char.charCodeAt() !== -1) {
+                var M = char.charCodeAt();
+                var K = key_gen.substring(index, index + 1).charCodeAt();
+                console.debug('Vigenere.process(): ', 'M', M, String.fromCharCode(M));
+                console.debug('Vigenere.process(): ', 'K', K, String.fromCharCode(K));
                 var C = F(K, M);
-                console.debug('Vigenere.process(): ', 'C', C);
+                console.debug('Vigenere.process(): ', 'C', C, String.fromCharCode(C));
 
-                result_text += that.alphabet[C];
+                result_text += String.fromCharCode(C);
             } else {
-                result_text += initial_text.charAt(i);
+                console.debug('Vigenere.process(): ', '!!alphabet char doesn\'t exist!!');
+                result_text += initial_text.charAt(index);
             }
         }
         console.debug('Vigenere.process(): ',
@@ -105,13 +105,13 @@ var Vigenere = function() {
     this.populateUppercaseAlphabet();
 };
 
-// Encrypt.
+// Encrypt the cleartext.
 Vigenere.prototype.encrypt = function(initial_text, key) {
     // Pass E() as a Function object.
     return this.process(initial_text, key, this.E);
 };
 
-// Decrypt.
+// Decrypt the ciphertext.
 Vigenere.prototype.decrypt = function(initial_text, key) {
     // Pass D() as a Function object.
     return this.process(initial_text, key, this.D);
